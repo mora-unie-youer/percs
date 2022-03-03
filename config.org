@@ -8,8 +8,8 @@
 * This is me :3
 
 #+BEGIN_SRC emacs-lisp
-  (setq user-full-name    "Mora Unie Youer"
-	user-mail-address "mora_unie_youer@riseup.net")
+	(setq user-full-name    "Mora Unie Youer"
+				user-mail-address "mora_unie_youer@riseup.net")
 #+END_SRC
 
 * Initialization
@@ -18,28 +18,28 @@ Early init file. Used to configure something before =init.el= is loaded.
 
 Deferring garbage collection.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
-  (setq gc-cons-threshold most-positive-fixnum
-	gc-cons-percentage 0.6)
+	(setq gc-cons-threshold most-positive-fixnum
+				gc-cons-percentage 0.6)
 #+END_SRC
 
 Preventing Emacs from early package initialization.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
-  (setq package-enable-at-startup nil
-	package-quickstart nil)
+	(setq package-enable-at-startup nil
+				package-quickstart nil)
 #+END_SRC
 
 Disable UI elements.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (setq inhibit-splash-screen t
-	use-file-dialog nil)
+	(menu-bar-mode -1)
+	(tool-bar-mode -1)
+	(scroll-bar-mode -1)
+	(setq inhibit-splash-screen t
+				use-file-dialog nil)
 #+END_SRC
 
 Preventing unwanted runtime builds when native compilation enabled.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
-  (setq comp-deferred-compilation nil)
+	(setq comp-deferred-compilation nil)
 #+END_SRC
 
 ** init.el
@@ -47,17 +47,26 @@ Init file. Used to load Percs configuration.
 
 Setting Percs user directory.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el"
-  (setq user-emacs-directory (file-truename (file-name-directory load-file-name)))
+	(setq user-emacs-directory (file-truename (file-name-directory load-file-name)))
 #+END_SRC
 
 Starting Emacs server.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el"
-  (require 'server)
-  (unless (server-running-p)
-    (server-start))
+	(require 'server)
+	(unless (server-running-p)
+		(server-start))
 #+END_SRC
 
-Loading configuration
+Loading configuration.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :var config-file="~/.emacs.d/config.el"
-  (load config-file)
+	(load config-file)
+#+END_SRC
+
+* Configuration
+** Indentation
+Tab indentation with size of 2 is the most comfortable for me. :3
+#+BEGIN_SRC emacs-lisp
+	(setq-default indent-tabs-mode t
+								tab-width 2)
+	(setq indent-line-function 'insert-tab)
 #+END_SRC
