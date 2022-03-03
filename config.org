@@ -56,3 +56,8 @@ Starting Emacs server.
   (unless (server-running-p)
     (server-start))
 #+END_SRC
+
+Loading configuration
+#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :var config-file="~/.emacs.d/config.el"
+  (load config-file)
+#+END_SRC
