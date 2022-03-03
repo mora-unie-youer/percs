@@ -41,3 +41,11 @@ Preventing unwanted runtime builds when native compilation enabled.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
   (setq comp-deferred-compilation nil)
 #+END_SRC
+
+** init.el
+Init file. Used to load Percs configuration.
+
+Setting Percs user directory.
+#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el"
+  (setq user-emacs-directory (file-truename (file-name-directory load-file-name)))
+#+END_SRC
