@@ -16,8 +16,28 @@
 ** early-init.el
 Early init file. Used to configure something before =init.el= is loaded.
 
-Deferring garbage collection
+Deferring garbage collection.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
   (setq gc-cons-threshold most-positive-fixnum
 	gc-cons-percentage 0.6)
+#+end_src
+
+Preventing Emacs from early package initialization.
+#+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
+  (setq package-enable-at-startup nil
+	package-quickstart nil)
+#+end_src
+
+Disable UI elements.
+#+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (setq inhibit-splash-screen t
+	use-file-dialog nil)
+#+end_src
+
+Preventing unwanted runtime builds when native compilation enabled.
+#+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
+  (setq comp-deferred-compilation nil)
 #+end_src
