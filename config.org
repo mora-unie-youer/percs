@@ -1,0 +1,13 @@
+#+TITLE:    Percs - Emacs configuration
+#+AUTHOR:   Mora Unie Youer
+#+EMAIL:    mora_unie_youer@riseup.net
+#+DATE:     2022-03-03
+#+PROPERTY: header-args+ :tangle "~/.emacs.d/config.el" :comments link
+#+ARCHIVE:  ::* Archived
+
+* This is me :3
+
+#+begin_src emacs-lisp
+  (setq user-full-name    "Mora Unie Youer")
+  (setq user-mail-address "mora_unie_youer@riseup.net")
+#+end_src
