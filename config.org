@@ -8,8 +8,8 @@
 * This is me :3
 
 #+BEGIN_SRC emacs-lisp
-  (setq user-full-name    "Mora Unie Youer")
-  (setq user-mail-address "mora_unie_youer@riseup.net")
+  (setq user-full-name    "Mora Unie Youer"
+	user-mail-address "mora_unie_youer@riseup.net")
 #+END_SRC
 
 * Initialization
@@ -48,4 +48,11 @@ Init file. Used to load Percs configuration.
 Setting Percs user directory.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el"
   (setq user-emacs-directory (file-truename (file-name-directory load-file-name)))
+#+END_SRC
+
+Starting Emacs server.
+#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el"
+  (require 'server)
+  (unless (server-running-p)
+    (server-start))
 #+END_SRC
