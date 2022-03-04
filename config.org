@@ -97,3 +97,12 @@ Installing =use-package= if needed and enabling it.
 	(eval-when-compile
 		(require 'use-package))
 #+END_SRC
+
+** Apperance
+*** org-mode
+**** Bullets
+Show bullets in org-mode.
+#+BEGIN_SRC emacs-lisp
+	(use-package org-bullets
+		:hook (org-mode . org-bullets-mode))
+#+END_SRC
