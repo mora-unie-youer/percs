@@ -83,6 +83,11 @@ Fix incorrect indentation in org-mode babel src blocks
 	(setq org-src-tab-acts-natively t)
 #+END_SRC
 
+Making Emacs erase the tab instead of removing 1 space at a time.
+#+BEGIN_SRC emacs-lisp
+	(setq backward-delete-char-untabify-method 'hungry)
+#+END_SRC
+
 ** Package manager
 Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
 #+BEGIN_SRC emacs-lisp
