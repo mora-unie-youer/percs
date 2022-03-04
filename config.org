@@ -82,3 +82,12 @@ Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
 	(unless package-archive-contents
 		(package-refresh-contents))
 #+END_SRC
+
+Installing =use-package= if needed and enabling it.
+#+BEGIN_SRC emacs-lisp
+	(unless (package-installed-p 'use-package)
+		(package-refresh-contents)
+		(package-install 'use-package))
+	(eval-when-compile
+		(require 'use-package))
+#+END_SRC
