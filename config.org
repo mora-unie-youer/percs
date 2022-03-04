@@ -6,91 +6,96 @@
 #+ARCHIVE:  ::* Archived
 
 * This is me :3
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 	(setq user-full-name    "Mora Unie Youer"
 				user-mail-address "mora_unie_youer@riseup.net")
-#+END_SRC
+#+end_src
 
 * Initialization
 ** early-init.el
 Early init file. Used to configure something before =init.el= is loaded.
 
 Deferring garbage collection.
-#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
+#+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
 	(setq gc-cons-threshold most-positive-fixnum
 				gc-cons-percentage 0.6)
-#+END_SRC
+#+end_src
 
 Preventing Emacs from early package initialization.
-#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
+#+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
 	(setq package-enable-at-startup nil
 				package-quickstart nil)
-#+END_SRC
+#+end_src
 
 Disable UI elements.
-#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
+#+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
 	(menu-bar-mode -1)
 	(tool-bar-mode -1)
 	(scroll-bar-mode -1)
 	(setq inhibit-splash-screen t
 				use-file-dialog nil)
-#+END_SRC
+#+end_src
 
 Preventing unwanted runtime builds when native compilation enabled.
-#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/early-init.el"
+#+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
 	(setq comp-deferred-compilation nil)
-#+END_SRC
+#+end_src
 
 ** init.el
 Init file. Used to load Percs configuration.
 
 Setting Percs user directory.
-#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el"
+#+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
 	(setq user-emacs-directory (file-truename (file-name-directory load-file-name)))
-#+END_SRC
+#+end_src
 
 Starting Emacs server.
-#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el"
+#+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
 	(require 'server)
 	(unless (server-running-p)
 		(server-start))
-#+END_SRC
+#+end_src
 
 Loading configuration.
-#+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :var config-file="~/.emacs.d/config.el"
+#+begin_src emacs-lisp :tangle "~/.emacs.d/init.el" :var config-file="~/.emacs.d/config.el"
 	(load config-file)
-#+END_SRC
+#+end_src
 
 * Configuration
 ** Backup files
 Stopping Emacs from making backup files.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 	(setq make-backup-files nil
 				auto-save-default nil
 				create-lockfiles nil)
-#+END_SRC
+#+end_src
 
 ** Indentation
 Tab indentation with size of 2 is the most comfortable for me. :3
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 	(setq-default indent-tabs-mode t
 								tab-width 2)
 	(setq tab-always-indent 'complete)
-#+END_SRC
+#+end_src
 
 Fix incorrect indentation in org-mode babel src blocks
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 	(setq org-src-tab-acts-natively t)
-#+END_SRC
+#+end_src
 
 Making Emacs erase the tab instead of removing 1 space at a time.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 	(setq backward-delete-char-untabify-method 'hungry)
-#+END_SRC
+#+end_src
+
+Making electric-indent behave sanely.
+#+begin_src emacs-lisp
+	(setq-default electric-indent-inhibit t)
+#+end_src
 
 ** Package manager
 Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 	(require 'package)
 	(package-initialize)
 
@@ -99,22 +104,22 @@ Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
 													 ("melpa"  . "https://melpa.org/packages/")))
 	(unless package-archive-contents
 		(package-refresh-contents))
-#+END_SRC
+#+end_src
 
 Installing =use-package= if needed and enabling it.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 	(unless (package-installed-p 'use-package)
 		(package-refresh-contents)
 		(package-install 'use-package))
 	(eval-when-compile
 		(require 'use-package))
-#+END_SRC
+#+end_src
 
 ** Apperance
 *** org-mode
 **** Bullets
 Show bullets in org-mode.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 	(use-package org-bullets
 		:hook (org-mode . org-bullets-mode))
-#+END_SRC
+#+end_src
