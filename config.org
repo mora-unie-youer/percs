@@ -62,6 +62,14 @@ Loading configuration.
 #+END_SRC
 
 * Configuration
+** Backup files
+Stopping Emacs from making backup files.
+#+BEGIN_SRC emacs-lisp
+	(setq make-backup-files nil
+				auto-save-default nil
+				create-lockfiles nil)
+#+END_SRC
+
 ** Indentation
 Tab indentation with size of 2 is the most comfortable for me. :3
 #+BEGIN_SRC emacs-lisp
