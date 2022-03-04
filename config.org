@@ -69,3 +69,16 @@ Tab indentation with size of 2 is the most comfortable for me. :3
 								tab-width 2)
 	;; (setq indent-line-function 'insert-tab)
 #+END_SRC
+
+** Package manager
+Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
+#+BEGIN_SRC emacs-lisp
+	(require 'package)
+	(package-initialize)
+
+	(setq package-archives '(("gnu"    . "https://elpa.gnu.org/packages/")
+													 ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+													 ("melpa"  . "https://melpa.org/packages/")))
+	(unless package-archive-contents
+		(package-refresh-contents))
+#+END_SRC
