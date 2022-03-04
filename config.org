@@ -56,12 +56,6 @@ Starting Emacs server.
     (server-start))
 #+END_SRC
 
-Exit server without asking about unsaved buffers.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'kill-emacs-hook
-            (lambda() (save-some-buffers 'save-all-buffers)) 'append)
-#+END_SRC
-
 Loading configuration.
 #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :var config-file="~/.emacs.d/config.el"
   (load config-file)
