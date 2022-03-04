@@ -6,7 +6,6 @@
 #+ARCHIVE:  ::* Archived
 
 * This is me :3
-
 #+BEGIN_SRC emacs-lisp
 	(setq user-full-name    "Mora Unie Youer"
 				user-mail-address "mora_unie_youer@riseup.net")
@@ -68,5 +67,5 @@ Tab indentation with size of 2 is the most comfortable for me. :3
 #+BEGIN_SRC emacs-lisp
 	(setq-default indent-tabs-mode t
 								tab-width 2)
-	(setq indent-line-function 'insert-tab)
+	;; (setq indent-line-function 'insert-tab)
 #+END_SRC
