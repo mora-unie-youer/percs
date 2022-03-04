@@ -125,7 +125,7 @@ Installing =use-package= if needed and enabling it.
 		(require 'use-package))
 #+end_src
 
-** Apperance
+** Appearance
 *** org-mode
 **** Bullets
 Show bullets in org-mode.
