@@ -167,11 +167,35 @@ Show bullets in org-mode.
 		(defconst reset-highlights
 			`((,(regexp-opt reset-keywords 'symbols) . font-lock-keyword-face))))
 
-	;; Defining reset-mode
+	(defun reset-indent-line ()
+		"Basic indentation function."
+		(let (indent boi-p move-eol-p (point (point)))
+			(save-excursion
+				(back-to-indentation)
+				(setq indent (car (syntax-ppss))
+							boi-p  (= point (point)))
+				(when (and (eq (char-after) ?\n)
+									 (not boi-p))
+					(setq indent 0))
+				(when boi-p
+					(setq move-eol-p t))
+				(when (or (eq (char-after) ?\))
+									(eq (char-after) ?\}))
+					(setq indent (1- indent)))
+				(message "Indent: `%d'" indent)
+				(delete-region (line-beginning-position) (point))
+				(indent-to (* tab-width indent)))
+			(when move-eol-p
+				(move-end-of-line nil))))
+
 	(define-derived-mode reset-mode prog-mode "Reset"
 		"Major mode for editing Reset code."
 		:syntax-table reset-mode-syntax-table
-		(setq font-lock-defaults '(reset-highlights)))
+		(setq-local font-lock-defaults '(reset-highlights))
+		(setq-local comment-start "# ")
+		(setq-local comment-end "")
+		(setq-local comment-start-skip "#+ *")
+		(setq-local indent-line-function #'reset-indent-line))
 	;; Enable mode on .rt files
 	(add-to-list 'auto-mode-alist '("\\.rt\\'" . reset-mode))
 #+end_src
