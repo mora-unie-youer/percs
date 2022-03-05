@@ -93,16 +93,6 @@ Making electric-indent behave sanely.
 	(setq-default electric-indent-inhibit t)
 #+end_src
 
-Making whitespaces/tabs visible.
-#+begin_src emacs-lisp
-	(setq whitespace-style '(face spaces tabs space-mark tab-mark trailing))
-	(setq whitespace-display-mappings '((space-mark 32 [183] [46])
-																			(tab-mark 9 [8677 9])))
-	(custom-set-faces '(whitespace-space ((t (:foreground "#636363"))))
-										'(whitespace-tab   ((t (:foreground "#636363")))))
-	(global-whitespace-mode)
-#+end_src
-
 ** Package manager
 Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
 #+begin_src emacs-lisp
@@ -126,6 +116,13 @@ Installing =use-package= if needed and enabling it.
 #+end_src
 
 ** Appearance
+*** UI
+Using theme for Emacs.
+#+begin_src emacs-lisp
+	(use-package cyberpunk-theme
+		:config
+		(load-theme 'cyberpunk t))
+#+end_src
 *** org-mode
 **** Bullets
 Show bullets in org-mode.
