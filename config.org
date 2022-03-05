@@ -115,13 +115,18 @@ Installing =use-package= if needed and enabling it.
 		(require 'use-package))
 #+end_src
 
+Always ensure and demand packages.
+#+begin_src emacs-lisp
+	(setq use-package-always-demand t
+				use-package-always-ensure t)
+#+end_src
+
 ** Appearance
 *** UI
 Using theme for Emacs.
 #+begin_src emacs-lisp
 	(use-package cyberpunk-theme
-		:config
-		(load-theme 'cyberpunk t))
+		:config (load-theme 'cyberpunk t))
 #+end_src
 *** org-mode
 **** Bullets
