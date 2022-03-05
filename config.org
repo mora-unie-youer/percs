@@ -140,3 +140,38 @@ Show bullets in org-mode.
 	(use-package org-bullets
 		:hook (org-mode . org-bullets-mode))
 #+end_src
+
+* My own Emacs modes.
+** Reset language
+#+begin_src emacs-lisp
+	(defconst reset-mode-syntax-table
+		(with-syntax-table (copy-syntax-table)
+			; Comments start with #
+			(modify-syntax-entry ?# "<")
+			; Comments end on newline
+			(modify-syntax-entry ?\n ">")
+			; Highlighting strings and chars
+			(modify-syntax-entry ?' "\"")
+			(syntax-table))
+		"Syntax table for `reset-mode`.")
+
+	(eval-and-compile
+		(defconst reset-keywords
+			'("if" "else"                   ; Conditionals
+				"break" "while"               ; Loops
+				"allocate" "return" "syscall" ; Functions
+				"global" "goto" "label"       ; Labels
+				"readchar" "writechar"        ; Byte operations
+				"char" "int"                  ; Array types
+				"include"))                   ; File operations
+		(defconst reset-highlights
+			`((,(regexp-opt reset-keywords 'symbols) . font-lock-keyword-face))))
+
+	;; Defining reset-mode
+	(define-derived-mode reset-mode prog-mode "Reset"
+		"Major mode for editing Reset code."
+		:syntax-table reset-mode-syntax-table
+		(setq font-lock-defaults '(reset-highlights)))
+	;; Enable mode on .rt files
+	(add-to-list 'auto-mode-alist '("\\.rt\\'" . reset-mode))
+#+end_src
