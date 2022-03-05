@@ -130,7 +130,7 @@ Always ensure and demand packages.
 *** UI
 Enabling column numbers.
 #+begin_src emacs-lisp
-	(display-line-numbers-mode 1)
+	(global-display-line-numbers-mode 1)
 #+end_src
 
 Using theme for Emacs.
