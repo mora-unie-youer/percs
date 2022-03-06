@@ -5,7 +5,7 @@
 #+PROPERTY: header-args+ :tangle "~/.emacs.d/config.el" :comments link
 #+ARCHIVE:  ::* Archived
 
-* Using lexical binding in =config.el=
+* Using lexical binding in =config.el=.
 #+begin_src emacs-lisp :comments nil
 	;;; -*- lexical-binding: t; -*-
 #+end_src
@@ -318,6 +318,31 @@ Using =flyspell=.
 *** Parentheses
 Using =smartparens-mode=.
 #+begin_src emacs-lisp
+	(defun sp-lisp-invalid-hyperlink-p (_id action _context)
+		"Test if there is an invalid hyperlink in a Lisp docstring.
+	ID, ACTION, CONTEXT."
+		(when (eq action 'navigate)
+			;; Ignore errors due to us being at the start or end of the
+			;; buffer.
+			(ignore-errors
+				(or
+				 ;; foo'|bar
+				 (and (looking-at "\\sw\\|\\s_")
+							;; do not consider punctuation
+							(not (looking-at "[?.,;!]"))
+							(save-excursion
+								(backward-char 2)
+								(looking-at "\\sw\\|\\s_")))
+				 ;; foo|'bar
+				 (and (save-excursion
+								(backward-char 1)
+								(looking-at "\\sw\\|\\s_"))
+							(save-excursion
+								(forward-char 1)
+								(looking-at "\\sw\\|\\s_")
+								;; do not consider punctuation
+								(not (looking-at "[?.,;!]"))))))))
+
 	(use-package smartparens
 		:hook (prog-mode . smartparens-mode)
 		:diminish smartparens-mode
@@ -337,6 +362,15 @@ Using =smartparens-mode=.
 		(sp-escape-quotes-after-install nil)
 		:config
 		(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+		(sp-local-pair 'emacs-lisp-mode "`" "'"
+									 :when '(sp-in-string-p sp-in-comment-p)
+									 :unless '(sp-lisp-invalid-hyperlink-p)
+									 :skip-match (lambda (ms _mb _me)
+																 (cond
+																	((eq ms "'")
+																	 (or (sp-lisp-invalid-hyperlink-p "`" 'navigate '_)
+																			 (not (sp-point-in-string-or-comment))))
+																	(t (not (sp-point-in-string-or-comment))))))
 		(sp-local-pair 'org-mode "[" nil :actions nil))
 #+end_src
 
