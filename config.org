@@ -231,6 +231,26 @@ Using =flycheck=.
 				(flycheck-vale-setup)
 				(flycheck-add-mode 'vale 'latex-mode))))
 #+end_src
+
+Using =flyspell=.
+#+begin_src emacs-lisp
+	(use-package flyspell
+		:diminish
+		:if (executable-find "aspell")
+		:hook (((text-mode outline-mode latex-mode org-mode markdown-mode) . flyspell-mode))
+		:custom
+		(flyspell-issue-message-flag nil)
+		(ispell-program-name "aspell")
+		(ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--camel-case"))
+		:config
+		(use-package flyspell-correct-ivy
+			:after ivy
+			:bind
+			(:map flyspell-mode-map
+						([remap flyspell-correct-word-before-point] . flyspell-correct-wrapper)
+						("C-." . flyspell-correct-wrapper))
+			:custom (flyspell-correct-interface #'flyspell-correct-ivy)))
+#+end_src
 *** Reset language
 #+begin_src emacs-lisp
 	(defconst reset-mode-syntax-table
