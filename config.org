@@ -205,7 +205,6 @@ I think that =notmuch= is pretty cool.
 				sendmail-program "/usr/bin/msmtp"
 				mail-specify-envelope-from t
 				message-sendmail-envelope-from 'header
-				message-sendmail-f-is-evil 't
 				mail-envelope-from 'header
 				+notmuch-sync-backend 'mbsync)
 	(setq notmuch-saved-searches '((:name "Unread"
