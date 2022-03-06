@@ -166,6 +166,12 @@ Show bullets in org-mode.
 			(interactive)
 			(magit-log-buffer-file t)))
 #+end_src
+*** Projectile
+#+begin_src emacs-lisp
+	(use-package projectile
+		:bind ("C-c p" . projectile-command-map)
+		:config (projectile-mode 1))
+#+end_src
 *** Reset language
 #+begin_src emacs-lisp
 	(defconst reset-mode-syntax-table
