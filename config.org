@@ -230,6 +230,11 @@ I think that =notmuch= is pretty cool.
 																	:sort-order newest-first)))
 #+end_src
 
+Adding =gnus-alias= for E-Mail identity management.
+#+begin_src emacs-lisp
+	(use-package gnus-alias :config (gnus-alias-init))
+#+end_src
+
 ** Programming
 *** Indentation
 Highlight indentation guides if you want.
