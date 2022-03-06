@@ -529,6 +529,15 @@ Using =company-mode=.
 								(throw 'func-succeed t)))
 						(company-complete-common))))))
 #+end_src
+
+Using =company-box=.
+#+begin_src emacs-lisp
+	(use-package company-box
+		:diminish
+		:if (display-graphic-p)
+		:hook (company-mode . company-box-mode)
+#+end_src
+
 *** Reset language
 #+begin_src emacs-lisp
 	(defconst reset-mode-syntax-table
