@@ -98,19 +98,6 @@ Making electric-indent behave sanely.
 	(setq-default electric-indent-inhibit t)
 #+end_src
 
-Highlight indentation guides if you want.
-#+begin_src emacs-lisp
-	(use-package highlight-indent-guides
-		:if (display-graphic-p)
-		:diminish
-		:commands (highlight-indent-guides-mode)
-		:custom
-		(highlight-indent-guides-method 'character)
-		(highlight-indent-guides-responsive 'top)
-		(highlight-indent-guides-delay 0)
-		(highlight-indent-guides-auto-character-face-perc 7))
-#+end_src
-
 ** Package manager
 Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
 #+begin_src emacs-lisp
@@ -200,6 +187,20 @@ Show bullets in org-mode.
 #+end_src
 
 ** Programming
+*** Indentation
+Highlight indentation guides if you want.
+#+begin_src emacs-lisp
+	(use-package highlight-indent-guides
+		:if (display-graphic-p)
+		:diminish
+		:commands (highlight-indent-guides-mode)
+		:custom
+		(highlight-indent-guides-method 'character)
+		(highlight-indent-guides-responsive 'top)
+		(highlight-indent-guides-delay 0)
+		(highlight-indent-guides-auto-character-face-perc 7))
+#+end_src
+
 *** Git
 #+begin_src emacs-lisp
 	(use-package magit
