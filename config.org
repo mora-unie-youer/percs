@@ -93,11 +93,6 @@ Making electric-indent behave sanely.
 	(setq-default electric-indent-inhibit t)
 #+end_src
 
-Enabling automatic bracket/brace/parens pairing
-#+begin_src emacs-lisp
-	(electric-pair-mode 1)
-#+end_src
-
 ** Package manager
 Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
 #+begin_src emacs-lisp
@@ -143,6 +138,7 @@ Using =FiraCode Nerd Font= because I like it :3
 #+begin_src emacs-lisp
 	(set-frame-font "FiraCode Nerd Font Mono 8" nil t)
 #+end_src
+
 *** org-mode
 **** Bullets
 Show bullets in org-mode.
@@ -184,6 +180,7 @@ Show bullets in org-mode.
 			(interactive)
 			(ivy--cd "~/")))
 #+end_src
+
 ** Programming
 *** Git
 #+begin_src emacs-lisp
@@ -199,12 +196,14 @@ Show bullets in org-mode.
 			(interactive)
 			(magit-log-buffer-file t)))
 #+end_src
+
 *** Projectile
 #+begin_src emacs-lisp
 	(use-package projectile
 		:bind ("C-c p" . projectile-command-map)
 		:config (projectile-mode 1))
 #+end_src
+
 *** YASnippet
 #+begin_src emacs-lisp
 	(use-package yasnippet
@@ -227,6 +226,7 @@ Show bullets in org-mode.
 									 (eq old-tick (buffer-chars-modified-tick)))
 					(ignore-errors (yas-next-field))))))
 #+end_src
+
 *** Syntax checking
 Using =flycheck=.
 #+begin_src emacs-lisp
@@ -284,6 +284,7 @@ Using =flyspell=.
 						("C-." . flyspell-correct-wrapper))
 			:custom (flyspell-correct-interface #'flyspell-correct-ivy)))
 #+end_src
+
 *** Dumb Jump
 #+begin_src emacs-lisp
 	(use-package dumb-jump
@@ -294,6 +295,32 @@ Using =flyspell=.
 					 ("C-c C-i" . dumb-jump-go-prompt)))
 		:custom (dumb-jump-selector 'ivy))
 #+end_src
+
+*** Parenthesis
+Using =smartparens-mode=.
+#+begin_src emacs-lisp
+	(use-package smartparens
+		:hook (prog-mode . smartparens-mode)
+		:diminish smartparens-mode
+		:bind
+		(:map smartparens-mode-map
+					("C-M-f" . sp-forward-sexp)
+					("C-M-b" . sp-backward-sexp)
+					("C-M-a" . sp-backward-down-sexp)
+					("C-M-e" . sp-up-sexp)
+					("C-M-w" . sp-copy-sexp)
+					("C-M-k" . sp-change-enclosing)
+					("M-k"   . sp-kill-sexp)
+					("C-]"   . sp-select-next-thing-exchange)
+					("C-M-<backspace>" . sp-splice-sexp-killing-backward)
+					("C-S-<backspace>" . sp-splice-sexp-killing-around))
+		:custom
+		(sp-escape-quotes-after-install nil)
+		:config
+		(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+		(sp-local-pair 'org-mode "[" nil :actions nil))
+#+end_src
+
 *** Reset language
 #+begin_src emacs-lisp
 	(defconst reset-mode-syntax-table
