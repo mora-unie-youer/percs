@@ -127,6 +127,12 @@ Always ensure and demand packages.
 #+end_src
 
 ** Appearance
+*** Line limit
+#+begin_src emacs-lisp
+	(setq fill-column 80)
+	(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+#+end_src
+
 *** UI
 Enabling column numbers.
 #+begin_src emacs-lisp
