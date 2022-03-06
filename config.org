@@ -244,6 +244,8 @@ Highlight indentation guides if you want.
 		(:map yas-minor-mode-map ("C-c C-n" . yas-expand-from-trigger-key))
 		(:map yas-keymap (("TAB"   . smarter-yas-expand-next-field)
 											([(tab)] . smarter-yas-expand-next-field)))
+		:custom
+		(yas-indent-line nil)
 		:config
 		(yas-reload-all)
 		(defun smarter-yas-expand-next-field ()
