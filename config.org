@@ -491,6 +491,44 @@ Using =dap-mode=.
 					 ("<f7>"  . dap-breakpoint-toggle))))
 #+end_src
 
+*** Completion
+Using =company-mode=.
+#+begin_src emacs-lisp
+	(use-package company
+		:diminish company-mode
+		:hook ((prog-mode LaTeX-mode latex-mode ess-r-mode) . company-mode)
+		:bind
+		(:map company-active-map
+					([tab] . smarter-tab-to-complete)
+					("TAB" . smarter-tab-to-complete))
+		:custom
+		(company-minimum-prefix-length 1)
+		(company-tooltip-align-annotations t)
+		(company-require-match 'never)
+		(company-global-modes '(not shell-mode eaf-mode))
+		(company-idle-delay 0.1)
+		(company-show-numbers t)
+		:config
+		(global-company-mode 1)
+
+		(defun smarter-tab-to-complete ()
+			"Try to `org-cycle', `yas-expand' or `yas-next-field' at current cursor position."
+			(interactive)
+			(when yas-minor-mode
+				(let ((old-point (point))
+							(old-tick (buffer-chars-modified-tick))
+							(func-list
+							 (if (eq major-mode 'org-mode)
+									 '(org-cycle yas-expand yas-next-field)
+								 '(yas-expand yas-next-field))))
+					(catch 'func-succeed
+						(dolist (func func-list)
+							(ignore-errors (call-interactively func))
+							(unless (and (eq old-point (point))
+													 (eq old-tick (buffer-chars-modified-tick)))
+								(throw 'func-succeed t)))
+						(company-complete-common))))))
+#+end_src
 *** Reset language
 #+begin_src emacs-lisp
 	(defconst reset-mode-syntax-table
