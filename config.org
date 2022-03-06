@@ -135,8 +135,8 @@ Enabling column numbers.
 
 Using theme for Emacs.
 #+begin_src emacs-lisp
-	(use-package cyberpunk-theme
-		:config (load-theme 'cyberpunk t))
+	(use-package monokai-theme
+		:config (load-theme 'monokai t))
 #+end_src
 
 Using =FiraCode Nerd Font= because I like it :3
@@ -535,7 +535,7 @@ Using =company-box=.
 	(use-package company-box
 		:diminish
 		:if (display-graphic-p)
-		:hook (company-mode . company-box-mode)
+		:hook (company-mode . company-box-mode))
 #+end_src
 
 *** Reset language
