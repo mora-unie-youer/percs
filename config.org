@@ -5,6 +5,11 @@
 #+PROPERTY: header-args+ :tangle "~/.emacs.d/config.el" :comments link
 #+ARCHIVE:  ::* Archived
 
+* Using lexical binding in =config.el=
+#+begin_src emacs-lisp :comments nil
+	;;; -*- lexical-binding: t; -*-
+#+end_src
+
 * This is me :3
 #+begin_src emacs-lisp
 	(setq user-full-name    "Mora Unie Youer"
@@ -319,6 +324,52 @@ Using =smartparens-mode=.
 		:config
 		(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
 		(sp-local-pair 'org-mode "[" nil :actions nil))
+#+end_src
+
+Matching parenthesis.
+#+begin_src emacs-lisp :lexical t
+	(show-paren-mode 1)
+	(remove-hook 'post-self-insert-hook #'blink-paren-post-self-insert-function)
+	(setq blink-matching-paren 'show)
+
+	(defun display-line-overlay+ (pos str &optional face)
+		"Display line at POS as STR with FACE."
+		(let ((ol (save-excursion
+								(goto-char pos)
+								(make-overlay (line-beginning-position)
+															(line-end-position)))))
+			(overlay-put ol 'display str)
+			(overlay-put ol 'face
+									 (or face '(:inherit default :inherit highlight)))
+			ol))
+
+	(let ((ov nil))
+		(advice-add
+		 #'show-paren-function
+		 :after
+		 (defun show-paren--off-screen+ (&rest _args)
+			 "Display matching line for off-screen paren."
+			 (when (overlayp ov)
+				 (delete-overlay ov))
+			 (when (and (overlay-buffer show-paren--overlay)
+									(not (or cursor-in-echo-area
+													 executing-kbd-macro
+													 noninteractive
+													 (minibufferp)
+													 this-command))
+									(and (not (bobp))
+											 (memq (char-syntax (char-before)) '(?\) ?\$)))
+									(= 1 (logand 1 (- (point)
+																		(save-excursion
+																			(forward-char -1)
+																			(skip-syntax-backward "/\\")
+																			(point))))))
+				 (cl-letf (((symbol-function #'minibuffer-message)
+										(lambda (msg &rest args)
+											(let ((msg (apply #'format-message msg args)))
+												(setq ov (display-line-overlay+
+																	(window-start) msg))))))
+					 (blink-matching-open))))))
 #+end_src
 
 *** Reset language
