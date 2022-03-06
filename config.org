@@ -284,6 +284,16 @@ Using =flyspell=.
 						("C-." . flyspell-correct-wrapper))
 			:custom (flyspell-correct-interface #'flyspell-correct-ivy)))
 #+end_src
+*** Dumb Jump
+#+begin_src emacs-lisp
+	(use-package dumb-jump
+		:bind
+		(:map prog-mode-map
+					(("C-c C-o" . dumb-jump-go-other-window)
+					 ("C-c C-j" . dumb-jump-go)
+					 ("C-c C-i" . dumb-jump-go-prompt)))
+		:custom (dumb-jump-selector 'ivy))
+#+end_src
 *** Reset language
 #+begin_src emacs-lisp
 	(defconst reset-mode-syntax-table
