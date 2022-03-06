@@ -152,7 +152,7 @@ Using theme for Emacs.
 
 Using =FiraCode Nerd Font= because I like it :3
 #+begin_src emacs-lisp
-	(set-frame-font "FiraCode Nerd Font Mono 8" nil t)
+	(add-to-list 'default-frame-alist '(font . "Firacode Nerd Font Mono 8"))
 #+end_src
 
 *** org-mode
