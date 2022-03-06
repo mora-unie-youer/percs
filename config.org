@@ -197,6 +197,18 @@ Show bullets in org-mode.
 			(ivy--cd "~/")))
 #+end_src
 
+** E-Mail
+I think that =notmuch= is pretty cool.
+#+begin_src emacs-lisp
+	(use-package notmuch)
+	(setq send-mail-function 'sendmail-send-it
+				sendmail-program "/usr/bin/msmtp"
+				mail-specify-envelope-from t
+				message-sendmail-envelope-from 'header
+				message-sendmail-f-is-evil 't
+				mail-envelope-from 'header)
+#+end_src
+
 ** Programming
 *** Indentation
 Highlight indentation guides if you want.
@@ -604,6 +616,5 @@ Using =company-box=.
 		(setq-local comment-end "")
 		(setq-local comment-start-skip "#+ *")
 		(setq-local indent-line-function #'reset-indent-line))
-	;; Enable mode on .rt files
 	(add-to-list 'auto-mode-alist '("\\.rt\\'" . reset-mode))
 #+end_src
