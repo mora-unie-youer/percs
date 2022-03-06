@@ -1,19 +1,13 @@
 #+TITLE:    Percs - Emacs configuration
 #+AUTHOR:   Mora Unie Youer
 #+EMAIL:    mora_unie_youer@riseup.net
-#+DATE:     2022-03-03
+#+DATE:     2022-03-06
 #+PROPERTY: header-args+ :tangle "~/.emacs.d/config.el" :comments link
 #+ARCHIVE:  ::* Archived
 
 * Using lexical binding in =config.el=.
 #+begin_src emacs-lisp :comments nil
 	;;; -*- lexical-binding: t; -*-
-#+end_src
-
-* This is me :3
-#+begin_src emacs-lisp
-	(setq user-full-name    "Mora Unie Youer"
-				user-mail-address "mora_unie_youer@riseup.net")
 #+end_src
 
 * Initialization
@@ -64,6 +58,12 @@ Starting Emacs server.
 Loading configuration.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el" :var config-file="~/.emacs.d/config.el"
 	(load config-file)
+#+end_src
+
+Loading user configuration after core configuration.
+#+begin_src emacs-lisp :var user-config-file="~/.emacs.d/config.user.el"
+	(when (file-exists-p user-config-file)
+		(load-file user-config-file))
 #+end_src
 
 * Configuration
@@ -639,3 +639,4 @@ Using =company-box=.
 		(setq-local indent-line-function #'reset-indent-line))
 	(add-to-list 'auto-mode-alist '("\\.rt\\'" . reset-mode))
 #+end_src
+
