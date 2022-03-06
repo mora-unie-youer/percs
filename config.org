@@ -301,7 +301,7 @@ Using =flyspell=.
 		:custom (dumb-jump-selector 'ivy))
 #+end_src
 
-*** Parenthesis
+*** Parentheses
 Using =smartparens-mode=.
 #+begin_src emacs-lisp
 	(use-package smartparens
@@ -326,7 +326,7 @@ Using =smartparens-mode=.
 		(sp-local-pair 'org-mode "[" nil :actions nil))
 #+end_src
 
-Matching parenthesis.
+Matching parentheses.
 #+begin_src emacs-lisp :lexical t
 	(show-paren-mode 1)
 	(remove-hook 'post-self-insert-hook #'blink-paren-post-self-insert-function)
