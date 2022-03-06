@@ -127,16 +127,21 @@ Always ensure and demand packages.
 #+end_src
 
 ** Appearance
-*** Line limit
+*** UI
+Enable 'bar' cursor.
 #+begin_src emacs-lisp
-	(setq fill-column 80)
-	(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+	(setq-default cursor-type 'bar)
 #+end_src
 
-*** UI
 Enabling column numbers.
 #+begin_src emacs-lisp
 	(global-display-line-numbers-mode 1)
+#+end_src
+
+Show 80-char ruler.
+#+begin_src emacs-lisp
+	(setq fill-column 80)
+	(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 #+end_src
 
 Using theme for Emacs.
