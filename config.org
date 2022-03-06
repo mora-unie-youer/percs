@@ -151,8 +151,22 @@ Show bullets in org-mode.
 		:hook (org-mode . org-bullets-mode))
 #+end_src
 
-* My own Emacs modes.
-** Reset language
+** Programming
+*** Git
+#+begin_src emacs-lisp
+	(use-package magit
+		:if (executable-find "git")
+		:bind
+		(("C-x g" . magit-status)
+		 (:map magit-status-mode-map
+					 ("M-RET" . magit-diff-visit-file-other-window)))
+		:config
+		(defun magit-log-follow-current-file ()
+			"A wrapper around `magit-log-buffer-file' with `--follow' argument."
+			(interactive)
+			(magit-log-buffer-file t)))
+#+end_src
+*** Reset language
 #+begin_src emacs-lisp
 	(defconst reset-mode-syntax-table
 		(with-syntax-table (copy-syntax-table)
