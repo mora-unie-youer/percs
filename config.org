@@ -662,18 +662,16 @@ Using =company-prescient=.
     :config (global-tree-sitter-mode 1))
 #+end_src
 
-*** Reset language
+*** Languages
+**** Reset language
 #+begin_src emacs-lisp
   (defconst reset-mode-syntax-table
     (with-syntax-table (copy-syntax-table)
-                                          ; Comments start with #
-      (modify-syntax-entry ?# "<")
-                                          ; Comments end on newline
-      (modify-syntax-entry ?\n ">")
-                                          ; Highlighting strings and chars
-      (modify-syntax-entry ?' "\"")
+      (modify-syntax-entry ?# "<")  ; Comments start with #
+      (modify-syntax-entry ?\n ">") ; Comments end on newline
+      (modify-syntax-entry ?' "\"") ; Highlighting strings and chars
       (syntax-table))
-    "Syntax table for `reset-mode`.")
+    "Syntax table for `reset-mode'.")
 
   (eval-and-compile
     (defconst reset-keywords
