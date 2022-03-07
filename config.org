@@ -231,6 +231,16 @@ Using =consult=.
     :hook (completion-list-mode . consult-preview-at-point-mode))
 #+end_src
 
+Using =marginalia= and =embark=.
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :config (marginalia-mode 1))
+
+  (use-package embark
+    :init
+    (setq prefix-help-command #'embark-prefix-help-command))
+#+end_src
+
 ** E-Mail
 I think that =notmuch= is pretty cool.
 #+begin_src emacs-lisp
