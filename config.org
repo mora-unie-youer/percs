@@ -208,37 +208,12 @@ Show bullets in org-mode.
 #+end_src
 
 ** Utilities
-*** Ivy
+*** Search
+Using =selectrum=.
 #+begin_src emacs-lisp
-  (global-set-key (kbd "C-z") nil)
-  (use-package ivy
-    :diminish
-    :init
-    (use-package amx :defer t)
-    (use-package counsel :diminish :config (counsel-mode 1))
-    (use-package swiper :defer t)
-    (ivy-mode 1)
-    :bind
-    (("C-s"     . swiper-isearch)
-     ("C-z s"   . counsel-rg)
-     ("C-z b"   . counsel-buffer-or-recentf)
-     ("C-z C-b" . counsel-ibuffer)
-     (:map ivy-minibuffer-map
-           ("M-RET" . ivy-immediate-done))
-     (:map counsel-find-file-map
-           ("C-~" . counsel-goto-local-home)))
-    :custom
-    (ivy-use-virtual-buffers t)
-    (ivy-height 10)
-    (ivy-on-del-error-function nil)
-    (ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
-    (ivy-count-format " [%d/%d] ")
-    (ivy-wrap t)
-    :config
-    (defun counsel-goto-local-home ()
-      "Go to the $HOME of the local machine."
-      (interactive)
-      (ivy--cd "~/")))
+  (use-package selectrum
+    :custom (selectrum-extend-current-candidate-highlight t)
+    :config (selectrum-mode 1))
 #+end_src
 
 ** E-Mail
@@ -387,15 +362,7 @@ Using =flyspell=.
     :custom
     (flyspell-issue-message-flag nil)
     (ispell-program-name "aspell")
-    (ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--camel-case"))
-    :config
-    (use-package flyspell-correct-ivy
-      :after ivy
-      :bind
-      (:map flyspell-mode-map
-            ([remap flyspell-correct-word-before-point] . flyspell-correct-wrapper)
-            ("C-." . flyspell-correct-wrapper))
-      :custom (flyspell-correct-interface #'flyspell-correct-ivy)))
+    (ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--camel-case")))
 #+end_src
 
 *** Dumb Jump
@@ -406,7 +373,7 @@ Using =flyspell=.
           (("C-c C-o" . dumb-jump-go-other-window)
            ("C-c C-j" . dumb-jump-go)
            ("C-c C-i" . dumb-jump-go-prompt)))
-    :custom (dumb-jump-selector 'ivy))
+    :custom (dumb-jump-selector 'selectrum))
 #+end_src
 
 *** Parentheses
