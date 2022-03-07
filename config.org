@@ -285,6 +285,12 @@ Adding =gnus-alias= for E-Mail identity management.
   (use-package gnus-alias :config (gnus-alias-init))
 #+end_src
 
+** RSS
+Using =elfeed= for RSS reading.
+#+begin_src emacs-lisp
+  (use-package elfeed)
+#+end_src
+
 ** Programming
 *** Indentation
 Highlight indentation guides if you want.
