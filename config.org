@@ -14,12 +14,6 @@
 ** early-init.el
 Early init file. Used to configure something before =init.el= is loaded.
 
-Deferring garbage collection.
-#+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
-  (setq gc-cons-threshold most-positive-fixnum
-        gc-cons-percentage 0.6)
-#+end_src
-
 Preventing Emacs from early package initialization.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
   (setq package-enable-at-startup nil
@@ -55,15 +49,6 @@ Starting Emacs server.
     (server-start))
 #+end_src
 
-Restoring garbage collector settings after initialization.
-#+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
-  (add-hook 'after-init-hook
-            (lambda ()
-              (garbage-collect)
-              (setq gc-cons-threshold (5 * 1024 * 1024)
-                    gc-cons-percentage 0.1)))
-#+end_src
-
 Loading core and user configuration. Adding keybinding (=C-c c r=) to reload them.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
   (defconst percs-config-file "~/.emacs.d/config.org"
@@ -74,7 +59,6 @@ Loading core and user configuration. Adding keybinding (=C-c c r=) to reload the
   (defun reload-configuration ()
     "Reloads (regenerates) core and user configuration"
     (interactive)
-    (garbage-collect)
     (org-babel-load-file percs-config-file)
     (when (file-exists-p percs-user-config-file)
       (org-babel-load-file percs-user-config-file)))
