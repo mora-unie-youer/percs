@@ -640,7 +640,7 @@ Using =company-box=.
 Using =company-prescient=.
 #+begin_src emacs-lisp
   (use-package company-prescient
-    :after prescient
+    :after (company prescient)
     :config (company-prescient-mode 1))
 #+end_src
 
