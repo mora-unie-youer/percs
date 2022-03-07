@@ -248,6 +248,12 @@ Using =embark-consult=.
     :hook (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
+Using =ctrlf=.
+#+begin_src emacs-lisp
+  (use-package ctrlf
+    :config (ctrlf-mode 1))
+#+end_src
+
 ** E-Mail
 I think that =notmuch= is pretty cool.
 #+begin_src emacs-lisp
