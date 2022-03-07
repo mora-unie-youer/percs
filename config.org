@@ -106,14 +106,18 @@ Making electric-indent behave sanely.
 #+end_src
 
 ** Package manager
-Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
+Requiring =package= package and adding =gnu=, =nongnu=, =org=, =ublt=, =melpa= and =melpa-stable= repositories.
 #+begin_src emacs-lisp
   (require 'package)
   (package-initialize)
 
-  (setq package-archives '(("gnu"    . "https://elpa.gnu.org/packages/")
-                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                           ("melpa"  . "https://melpa.org/packages/")))
+  (setq package-archives '(("gnu"          . "https://elpa.gnu.org/packages/")
+                           ("nongnu"       . "https://elpa.nongnu.org/nongnu/")
+                           ("org"          . "http://orgmode.org/elpa/")
+                           ("ublt"         . "https://elpa.ubolonton.org/packages/")
+                           ("melpa"        . "https://melpa.org/packages/")
+                           ("melpa-stable" . "https://stable.melpa.org/packages/")))
+
   (unless package-archive-contents
     (package-refresh-contents))
 #+end_src
