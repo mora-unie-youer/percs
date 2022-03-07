@@ -668,6 +668,9 @@ Using =web-mode=.
 #+begin_src emacs-lisp
   (use-package web-mode
     :custom
+    (web-mode-markup-indent-offset tab-width)
+    (web-mode-css-indent-offset    tab-width)
+    (web-mode-code-indent-offset   tab-width)
     (web-mode-enable-css-colorization t)
     (web-mode-enable-html-entities-fontification t)
     :init
