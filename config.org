@@ -7,7 +7,7 @@
 
 * Using lexical binding in =config.el=.
 #+begin_src emacs-lisp :comments nil
-	;;; -*- lexical-binding: t; -*-
+  ;;; -*- lexical-binding: t; -*-
 #+end_src
 
 * Initialization
@@ -16,28 +16,28 @@ Early init file. Used to configure something before =init.el= is loaded.
 
 Deferring garbage collection.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
-	(setq gc-cons-threshold most-positive-fixnum
-				gc-cons-percentage 0.6)
+  (setq gc-cons-threshold most-positive-fixnum
+        gc-cons-percentage 0.6)
 #+end_src
 
 Preventing Emacs from early package initialization.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
-	(setq package-enable-at-startup nil
-				package-quickstart nil)
+  (setq package-enable-at-startup nil
+        package-quickstart nil)
 #+end_src
 
 Disable UI elements.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
-	(menu-bar-mode -1)
-	(tool-bar-mode -1)
-	(scroll-bar-mode -1)
-	(setq inhibit-splash-screen t
-				use-file-dialog nil)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (setq inhibit-splash-screen t
+        use-file-dialog nil)
 #+end_src
 
 Preventing unwanted runtime builds when native compilation enabled.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el"
-	(setq comp-deferred-compilation nil)
+  (setq comp-deferred-compilation nil)
 #+end_src
 
 ** init.el
@@ -45,602 +45,602 @@ Init file. Used to load Percs configuration.
 
 Setting Percs user directory.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
-	(setq user-emacs-directory (file-truename (file-name-directory load-file-name)))
+  (setq user-emacs-directory (file-truename (file-name-directory load-file-name)))
 #+end_src
 
 Starting Emacs server.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
-	(require 'server)
-	(unless (server-running-p)
-		(server-start))
+  (require 'server)
+  (unless (server-running-p)
+    (server-start))
 #+end_src
 
 Loading configuration.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el" :var config-file="~/.emacs.d/config.el"
-	(load config-file)
+  (load config-file)
 #+end_src
 
 Loading user configuration after core configuration.
 #+begin_src emacs-lisp :var user-config-file="~/.emacs.d/config.user.el"
-	(when (file-exists-p user-config-file)
-		(load-file user-config-file))
+  (when (file-exists-p user-config-file)
+    (load-file user-config-file))
 #+end_src
 
 * Configuration
 ** Backup files
 Stopping Emacs from making backup files.
 #+begin_src emacs-lisp
-	(setq make-backup-files nil
-				auto-save-default nil
-				create-lockfiles nil)
+  (setq make-backup-files nil
+        auto-save-default nil
+        create-lockfiles nil)
 #+end_src
 
 ** Indentation
 Tab indentation with size of 2 is the most comfortable for me. :3
 #+begin_src emacs-lisp
-	(setq-default indent-tabs-mode t
-								tab-width 2)
-	(setq tab-always-indent 'complete)
+  (setq-default indent-tabs-mode nil
+                tab-width 2)
+  (setq tab-always-indent 'complete)
 #+end_src
 
 Fix incorrect indentation in org-mode babel src blocks
 #+begin_src emacs-lisp
-	(setq org-src-tab-acts-natively t)
+  (setq org-src-tab-acts-natively t)
 #+end_src
 
 Making Emacs erase the tab instead of removing 1 space at a time.
 #+begin_src emacs-lisp
-	(setq backward-delete-char-untabify-method 'hungry)
+  (setq backward-delete-char-untabify-method 'hungry)
 #+end_src
 
 Making electric-indent behave sanely.
 #+begin_src emacs-lisp
-	(setq-default electric-indent-inhibit t)
+  (setq-default electric-indent-inhibit t)
 #+end_src
 
 ** Package manager
 Requiring =package= package and adding =gnu=, =nongnu= and =melpa= repositories.
 #+begin_src emacs-lisp
-	(require 'package)
-	(package-initialize)
+  (require 'package)
+  (package-initialize)
 
-	(setq package-archives '(("gnu"    . "https://elpa.gnu.org/packages/")
-													 ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-													 ("melpa"  . "https://melpa.org/packages/")))
-	(unless package-archive-contents
-		(package-refresh-contents))
+  (setq package-archives '(("gnu"    . "https://elpa.gnu.org/packages/")
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                           ("melpa"  . "https://melpa.org/packages/")))
+  (unless package-archive-contents
+    (package-refresh-contents))
 #+end_src
 
 Installing =use-package= if needed and enabling it.
 #+begin_src emacs-lisp
-	(unless (package-installed-p 'use-package)
-		(package-refresh-contents)
-		(package-install 'use-package))
-	(eval-when-compile
-		(require 'use-package))
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (eval-when-compile
+    (require 'use-package))
 #+end_src
 
 Always ensure and demand packages.
 #+begin_src emacs-lisp
-	(setq use-package-always-demand t
-				use-package-always-ensure t)
+  (setq use-package-always-demand t
+        use-package-always-ensure t)
 #+end_src
 
 ** Appearance
 *** UI
 Enable 'bar' cursor.
 #+begin_src emacs-lisp
-	(setq-default cursor-type 'bar)
+  (setq-default cursor-type 'bar)
 #+end_src
 
 Enabling column numbers.
 #+begin_src emacs-lisp
-	(global-display-line-numbers-mode 1)
+  (global-display-line-numbers-mode 1)
 #+end_src
 
 Show 80-char ruler.
 #+begin_src emacs-lisp
-	(setq fill-column 80)
-	(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+  (setq fill-column 80)
+  (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 #+end_src
 
 Using theme for Emacs.
 #+begin_src emacs-lisp
-	(use-package monokai-theme
-		:config (load-theme 'monokai t))
+  (use-package monokai-theme
+    :config (load-theme 'monokai t))
 #+end_src
 
 Using =FiraCode Nerd Font= because I like it :3
 #+begin_src emacs-lisp
-	(add-to-list 'default-frame-alist '(font . "Firacode Nerd Font Mono 8"))
+  (add-to-list 'default-frame-alist '(font . "Firacode Nerd Font Mono 8"))
 #+end_src
 
 *** org-mode
 **** Bullets
 Show bullets in org-mode.
 #+begin_src emacs-lisp
-	(use-package org-bullets
-		:hook (org-mode . org-bullets-mode))
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode))
 #+end_src
 
 ** Utilities
 *** Ivy
 #+begin_src emacs-lisp
-	(global-set-key (kbd "C-z") nil)
-	(use-package ivy
-		:diminish
-		:init
-		(use-package amx :defer t)
-		(use-package counsel :diminish :config (counsel-mode 1))
-		(use-package swiper :defer t)
-		(ivy-mode 1)
-		:bind
-		(("C-s"     . swiper-isearch)
-		 ("C-z s"   . counsel-rg)
-		 ("C-z b"   . counsel-buffer-or-recentf)
-		 ("C-z C-b" . counsel-ibuffer)
-		 (:map ivy-minibuffer-map
-					 ("M-RET" . ivy-immediate-done))
-		 (:map counsel-find-file-map
-					 ("C-~" . counsel-goto-local-home)))
-		:custom
-		(ivy-use-virtual-buffers t)
-		(ivy-height 10)
-		(ivy-on-del-error-function nil)
-		(ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
-		(ivy-count-format " [%d/%d] ")
-		(ivy-wrap t)
-		:config
-		(defun counsel-goto-local-home ()
-			"Go to the $HOME of the local machine."
-			(interactive)
-			(ivy--cd "~/")))
+  (global-set-key (kbd "C-z") nil)
+  (use-package ivy
+    :diminish
+    :init
+    (use-package amx :defer t)
+    (use-package counsel :diminish :config (counsel-mode 1))
+    (use-package swiper :defer t)
+    (ivy-mode 1)
+    :bind
+    (("C-s"     . swiper-isearch)
+     ("C-z s"   . counsel-rg)
+     ("C-z b"   . counsel-buffer-or-recentf)
+     ("C-z C-b" . counsel-ibuffer)
+     (:map ivy-minibuffer-map
+           ("M-RET" . ivy-immediate-done))
+     (:map counsel-find-file-map
+           ("C-~" . counsel-goto-local-home)))
+    :custom
+    (ivy-use-virtual-buffers t)
+    (ivy-height 10)
+    (ivy-on-del-error-function nil)
+    (ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
+    (ivy-count-format " [%d/%d] ")
+    (ivy-wrap t)
+    :config
+    (defun counsel-goto-local-home ()
+      "Go to the $HOME of the local machine."
+      (interactive)
+      (ivy--cd "~/")))
 #+end_src
 
 ** E-Mail
 I think that =notmuch= is pretty cool.
 #+begin_src emacs-lisp
-	(use-package notmuch)
-	(setq send-mail-function 'sendmail-send-it
-				sendmail-program "/usr/bin/msmtp"
-				mail-specify-envelope-from t
-				message-sendmail-envelope-from 'header
-				mail-envelope-from 'header
-				+notmuch-sync-backend 'mbsync)
-	(setq notmuch-saved-searches '((:name "Unread"
-																	:query "tag:inbox and tag:unread"
-																	:count-query "tag:inbox and tag:unread"
-																	:sort-order newest-first)
-																 (:name "Inbox"
-																	:query "tag:inbox"
-																	:count-query "tag:inbox"
-																	:sort-order newest-first)
-																 (:name "Archive"
-																	:query "tag:archive"
-																	:count-query "tag:archive"
-																	:sort-order newest-first)
-																 (:name "Sent"
-																	:query "tag:sent or tag:replied"
-																	:count-query "tag:sent or tag:replied"
-																	:sort-order newest-first)
-																 (:name "Trash"
-																	:query "tag:deleted"
-																	:count-query "tag:deleted"
-																	:sort-order newest-first)))
+  (use-package notmuch)
+  (setq send-mail-function 'sendmail-send-it
+        sendmail-program "/usr/bin/msmtp"
+        mail-specify-envelope-from t
+        message-sendmail-envelope-from 'header
+        mail-envelope-from 'header
+        +notmuch-sync-backend 'mbsync)
+  (setq notmuch-saved-searches '((:name "Unread"
+                                        :query "tag:inbox and tag:unread"
+                                        :count-query "tag:inbox and tag:unread"
+                                        :sort-order newest-first)
+                                 (:name "Inbox"
+                                        :query "tag:inbox"
+                                        :count-query "tag:inbox"
+                                        :sort-order newest-first)
+                                 (:name "Archive"
+                                        :query "tag:archive"
+                                        :count-query "tag:archive"
+                                        :sort-order newest-first)
+                                 (:name "Sent"
+                                        :query "tag:sent or tag:replied"
+                                        :count-query "tag:sent or tag:replied"
+                                        :sort-order newest-first)
+                                 (:name "Trash"
+                                        :query "tag:deleted"
+                                        :count-query "tag:deleted"
+                                        :sort-order newest-first)))
 #+end_src
 
 Adding =gnus-alias= for E-Mail identity management.
 #+begin_src emacs-lisp
-	(use-package gnus-alias :config (gnus-alias-init))
+  (use-package gnus-alias :config (gnus-alias-init))
 #+end_src
 
 ** Programming
 *** Indentation
 Highlight indentation guides if you want.
 #+begin_src emacs-lisp
-	(use-package highlight-indent-guides
-		:if (display-graphic-p)
-		:diminish
-		:commands (highlight-indent-guides-mode)
-		:custom
-		(highlight-indent-guides-method 'character)
-		(highlight-indent-guides-responsive 'top)
-		(highlight-indent-guides-delay 0)
-		(highlight-indent-guides-auto-character-face-perc 7))
+  (use-package highlight-indent-guides
+    :if (display-graphic-p)
+    :diminish
+    :commands (highlight-indent-guides-mode)
+    :custom
+    (highlight-indent-guides-method 'character)
+    (highlight-indent-guides-responsive 'top)
+    (highlight-indent-guides-delay 0)
+    (highlight-indent-guides-auto-character-face-perc 7))
 #+end_src
 
 *** Git
 #+begin_src emacs-lisp
-	(use-package magit
-		:if (executable-find "git")
-		:bind
-		(("C-x g" . magit-status)
-		 (:map magit-status-mode-map
-					 ("M-RET" . magit-diff-visit-file-other-window)))
-		:config
-		(defun magit-log-follow-current-file ()
-			"A wrapper around `magit-log-buffer-file' with `--follow' argument."
-			(interactive)
-			(magit-log-buffer-file t)))
+  (use-package magit
+    :if (executable-find "git")
+    :bind
+    (("C-x g" . magit-status)
+     (:map magit-status-mode-map
+           ("M-RET" . magit-diff-visit-file-other-window)))
+    :config
+    (defun magit-log-follow-current-file ()
+      "A wrapper around `magit-log-buffer-file' with `--follow' argument."
+      (interactive)
+      (magit-log-buffer-file t)))
 #+end_src
 
 *** Projectile
 #+begin_src emacs-lisp
-	(use-package projectile
-		:bind ("C-c p" . projectile-command-map)
-		:config (projectile-mode 1))
+  (use-package projectile
+    :bind ("C-c p" . projectile-command-map)
+    :config (projectile-mode 1))
 #+end_src
 
 *** YASnippet
 #+begin_src emacs-lisp
-	(use-package yasnippet
-		:diminish yas-minor-mode
-		:init (use-package yasnippet-snippets :after yasnippet)
-		:hook ((prog-mode LaTeX-mode org-mode) . yas-minor-mode)
-		:bind
-		(:map yas-minor-mode-map ("C-c C-n" . yas-expand-from-trigger-key))
-		(:map yas-keymap (("TAB"   . smarter-yas-expand-next-field)
-											([(tab)] . smarter-yas-expand-next-field)))
-		:custom
-		(yas-indent-line nil)
-		:config
-		(yas-reload-all)
-		(defun smarter-yas-expand-next-field ()
-			"Try to `yas-expand' then `yas-next-field' at current cursor position."
-			(interactive)
-			(let ((old-point (point))
-						(old-tick (buffer-chars-modified-tick)))
-				(yas-expand)
-				(when (and (eq old-point (point))
-									 (eq old-tick (buffer-chars-modified-tick)))
-					(ignore-errors (yas-next-field))))))
+  (use-package yasnippet
+    :diminish yas-minor-mode
+    :init (use-package yasnippet-snippets :after yasnippet)
+    :hook ((prog-mode LaTeX-mode org-mode) . yas-minor-mode)
+    :bind
+    (:map yas-minor-mode-map ("C-c C-n" . yas-expand-from-trigger-key))
+    (:map yas-keymap (("TAB"   . smarter-yas-expand-next-field)
+                      ([(tab)] . smarter-yas-expand-next-field)))
+    :custom
+    (yas-indent-line nil)
+    :config
+    (yas-reload-all)
+    (defun smarter-yas-expand-next-field ()
+      "Try to `yas-expand' then `yas-next-field' at current cursor position."
+      (interactive)
+      (let ((old-point (point))
+            (old-tick (buffer-chars-modified-tick)))
+        (yas-expand)
+        (when (and (eq old-point (point))
+                   (eq old-tick (buffer-chars-modified-tick)))
+          (ignore-errors (yas-next-field))))))
 #+end_src
 
 *** Syntax checking
 Using =flycheck=.
 #+begin_src emacs-lisp
-	(use-package flycheck
-		:defer t
-		:diminish
-		:hook (after-init . global-flycheck-mode)
-		:commands (flycheck-add-mode)
-		:custom
-		(flycheck-emacs-lisp-load-path 'inherit)
-		(flycheck-indication-mode (if (display-graphic-p) 'right-fringe 'right-margin))
-		:init
-		(if (display-graphic-p)
-				(use-package flycheck-posframe
-					:custom-face
-					(flycheck-posframe-face      ((t (:foreground ,(face-foreground 'success)))))
-					(flycheck-posframe-info-face ((t (:foreground ,(face-foreground 'success)))))
-					:hook (flycheck-mode . flycheck-posframe-mode)
-					:custom
-					(flycheck-posframe-position 'window-bottom-left-corner)
-					(flycheck-posframe-border-width 3))
-			(use-package flycheck-pos-tip
-				:defines flycheck-pos-tip-timeout
-				:hook (flycheck-mode . flycheck-pos-tip-mode)
-				:custom (flycheck-pos-tip-timeout 30)))
-		:config
-		(use-package flycheck-popup-tip
-			:hook (flycheck-mode . flycheck-popup-tip-mode))
-		(when (fboundp 'define-fringe-bitmap)
-			(define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
-				[16 48 112 240 112 48 16] nil nil 'center))
-		(when (executable-find "vale")
-			(use-package flycheck-vale
-				:config
-				(flycheck-vale-setup)
-				(flycheck-add-mode 'vale 'latex-mode))))
+  (use-package flycheck
+    :defer t
+    :diminish
+    :hook (after-init . global-flycheck-mode)
+    :commands (flycheck-add-mode)
+    :custom
+    (flycheck-emacs-lisp-load-path 'inherit)
+    (flycheck-indication-mode (if (display-graphic-p) 'right-fringe 'right-margin))
+    :init
+    (if (display-graphic-p)
+        (use-package flycheck-posframe
+          :custom-face
+          (flycheck-posframe-face      ((t (:foreground ,(face-foreground 'success)))))
+          (flycheck-posframe-info-face ((t (:foreground ,(face-foreground 'success)))))
+          :hook (flycheck-mode . flycheck-posframe-mode)
+          :custom
+          (flycheck-posframe-position 'window-bottom-left-corner)
+          (flycheck-posframe-border-width 3))
+      (use-package flycheck-pos-tip
+        :defines flycheck-pos-tip-timeout
+        :hook (flycheck-mode . flycheck-pos-tip-mode)
+        :custom (flycheck-pos-tip-timeout 30)))
+    :config
+    (use-package flycheck-popup-tip
+      :hook (flycheck-mode . flycheck-popup-tip-mode))
+    (when (fboundp 'define-fringe-bitmap)
+      (define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
+        [16 48 112 240 112 48 16] nil nil 'center))
+    (when (executable-find "vale")
+      (use-package flycheck-vale
+        :config
+        (flycheck-vale-setup)
+        (flycheck-add-mode 'vale 'latex-mode))))
 #+end_src
 
 Using =flyspell=.
 #+begin_src emacs-lisp
-	(use-package flyspell
-		:diminish
-		:if (executable-find "aspell")
-		:hook (((text-mode outline-mode latex-mode org-mode markdown-mode) . flyspell-mode))
-		:custom
-		(flyspell-issue-message-flag nil)
-		(ispell-program-name "aspell")
-		(ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--camel-case"))
-		:config
-		(use-package flyspell-correct-ivy
-			:after ivy
-			:bind
-			(:map flyspell-mode-map
-						([remap flyspell-correct-word-before-point] . flyspell-correct-wrapper)
-						("C-." . flyspell-correct-wrapper))
-			:custom (flyspell-correct-interface #'flyspell-correct-ivy)))
+  (use-package flyspell
+    :diminish
+    :if (executable-find "aspell")
+    :hook (((text-mode outline-mode latex-mode org-mode markdown-mode) . flyspell-mode))
+    :custom
+    (flyspell-issue-message-flag nil)
+    (ispell-program-name "aspell")
+    (ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--camel-case"))
+    :config
+    (use-package flyspell-correct-ivy
+      :after ivy
+      :bind
+      (:map flyspell-mode-map
+            ([remap flyspell-correct-word-before-point] . flyspell-correct-wrapper)
+            ("C-." . flyspell-correct-wrapper))
+      :custom (flyspell-correct-interface #'flyspell-correct-ivy)))
 #+end_src
 
 *** Dumb Jump
 #+begin_src emacs-lisp
-	(use-package dumb-jump
-		:bind
-		(:map prog-mode-map
-					(("C-c C-o" . dumb-jump-go-other-window)
-					 ("C-c C-j" . dumb-jump-go)
-					 ("C-c C-i" . dumb-jump-go-prompt)))
-		:custom (dumb-jump-selector 'ivy))
+  (use-package dumb-jump
+    :bind
+    (:map prog-mode-map
+          (("C-c C-o" . dumb-jump-go-other-window)
+           ("C-c C-j" . dumb-jump-go)
+           ("C-c C-i" . dumb-jump-go-prompt)))
+    :custom (dumb-jump-selector 'ivy))
 #+end_src
 
 *** Parentheses
 Using =smartparens-mode=.
 #+begin_src emacs-lisp
-	(defun sp-lisp-invalid-hyperlink-p (_id action _context)
-		"Test if there is an invalid hyperlink in a Lisp docstring.
-	ID, ACTION, CONTEXT."
-		(when (eq action 'navigate)
-			;; Ignore errors due to us being at the start or end of the
-			;; buffer.
-			(ignore-errors
-				(or
-				 ;; foo'|bar
-				 (and (looking-at "\\sw\\|\\s_")
-							;; do not consider punctuation
-							(not (looking-at "[?.,;!]"))
-							(save-excursion
-								(backward-char 2)
-								(looking-at "\\sw\\|\\s_")))
-				 ;; foo|'bar
-				 (and (save-excursion
-								(backward-char 1)
-								(looking-at "\\sw\\|\\s_"))
-							(save-excursion
-								(forward-char 1)
-								(looking-at "\\sw\\|\\s_")
-								;; do not consider punctuation
-								(not (looking-at "[?.,;!]"))))))))
+  (defun sp-lisp-invalid-hyperlink-p (_id action _context)
+    "Test if there is an invalid hyperlink in a Lisp docstring.
+  ID, ACTION, CONTEXT."
+    (when (eq action 'navigate)
+      ;; Ignore errors due to us being at the start or end of the
+      ;; buffer.
+      (ignore-errors
+        (or
+         ;; foo'|bar
+         (and (looking-at "\\sw\\|\\s_")
+              ;; do not consider punctuation
+              (not (looking-at "[?.,;!]"))
+              (save-excursion
+                (backward-char 2)
+                (looking-at "\\sw\\|\\s_")))
+         ;; foo|'bar
+         (and (save-excursion
+                (backward-char 1)
+                (looking-at "\\sw\\|\\s_"))
+              (save-excursion
+                (forward-char 1)
+                (looking-at "\\sw\\|\\s_")
+                ;; do not consider punctuation
+                (not (looking-at "[?.,;!]"))))))))
 
-	(use-package smartparens
-		:hook (prog-mode . smartparens-strict-mode)
-		:diminish smartparens-mode
-		:bind
-		(:map smartparens-mode-map
-					("C-M-f" . sp-forward-sexp)
-					("C-M-b" . sp-backward-sexp)
-					("C-M-a" . sp-backward-down-sexp)
-					("C-M-e" . sp-up-sexp)
-					("C-M-w" . sp-copy-sexp)
-					("C-M-k" . sp-change-enclosing)
-					("M-k"   . sp-kill-sexp)
-					("C-]"   . sp-select-next-thing-exchange)
-					("C-M-<backspace>" . sp-splice-sexp-killing-backward)
-					("C-S-<backspace>" . sp-splice-sexp-killing-around))
-		:custom
-		(sp-escape-quotes-after-install nil)
-		:config
-		(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-		(sp-local-pair 'emacs-lisp-mode "`" "'"
-									 :when '(sp-in-string-p sp-in-comment-p)
-									 :unless '(sp-lisp-invalid-hyperlink-p)
-									 :skip-match (lambda (ms _mb _me)
-																 (cond
-																	((eq ms "'")
-																	 (or (sp-lisp-invalid-hyperlink-p "`" 'navigate '_)
-																			 (not (sp-point-in-string-or-comment))))
-																	(t (not (sp-point-in-string-or-comment))))))
-		(sp-local-pair 'org-mode "[" nil :actions nil))
+  (use-package smartparens
+    :hook (prog-mode . smartparens-strict-mode)
+    :diminish smartparens-mode
+    :bind
+    (:map smartparens-mode-map
+          ("C-M-f" . sp-forward-sexp)
+          ("C-M-b" . sp-backward-sexp)
+          ("C-M-a" . sp-backward-down-sexp)
+          ("C-M-e" . sp-up-sexp)
+          ("C-M-w" . sp-copy-sexp)
+          ("C-M-k" . sp-change-enclosing)
+          ("M-k"   . sp-kill-sexp)
+          ("C-]"   . sp-select-next-thing-exchange)
+          ("C-M-<backspace>" . sp-splice-sexp-killing-backward)
+          ("C-S-<backspace>" . sp-splice-sexp-killing-around))
+    :custom
+    (sp-escape-quotes-after-install nil)
+    :config
+    (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+    (sp-local-pair 'emacs-lisp-mode "`" "'"
+                   :when '(sp-in-string-p sp-in-comment-p)
+                   :unless '(sp-lisp-invalid-hyperlink-p)
+                   :skip-match (lambda (ms _mb _me)
+                                 (cond
+                                  ((eq ms "'")
+                                   (or (sp-lisp-invalid-hyperlink-p "`" 'navigate '_)
+                                       (not (sp-point-in-string-or-comment))))
+                                  (t (not (sp-point-in-string-or-comment))))))
+    (sp-local-pair 'org-mode "[" nil :actions nil))
 #+end_src
 
 Matching parentheses.
 #+begin_src emacs-lisp :lexical t
-	(show-paren-mode 1)
-	(remove-hook 'post-self-insert-hook #'blink-paren-post-self-insert-function)
-	(setq blink-matching-paren 'show)
+  (show-paren-mode 1)
+  (remove-hook 'post-self-insert-hook #'blink-paren-post-self-insert-function)
+  (setq blink-matching-paren 'show)
 
-	(defun display-line-overlay+ (pos str &optional face)
-		"Display line at POS as STR with FACE."
-		(let ((ol (save-excursion
-								(goto-char pos)
-								(make-overlay (line-beginning-position)
-															(line-end-position)))))
-			(overlay-put ol 'display str)
-			(overlay-put ol 'face
-									 (or face '(:inherit default :inherit highlight)))
-			ol))
+  (defun display-line-overlay+ (pos str &optional face)
+    "Display line at POS as STR with FACE."
+    (let ((ol (save-excursion
+                (goto-char pos)
+                (make-overlay (line-beginning-position)
+                              (line-end-position)))))
+      (overlay-put ol 'display str)
+      (overlay-put ol 'face
+                   (or face '(:inherit default :inherit highlight)))
+      ol))
 
-	(let ((ov nil))
-		(advice-add
-		 #'show-paren-function
-		 :after
-		 (defun show-paren--off-screen+ (&rest _args)
-			 "Display matching line for off-screen paren."
-			 (when (overlayp ov)
-				 (delete-overlay ov))
-			 (when (and (overlay-buffer show-paren--overlay)
-									(not (or cursor-in-echo-area
-													 executing-kbd-macro
-													 noninteractive
-													 (minibufferp)
-													 this-command))
-									(and (not (bobp))
-											 (memq (char-syntax (char-before)) '(?\) ?\$)))
-									(= 1 (logand 1 (- (point)
-																		(save-excursion
-																			(forward-char -1)
-																			(skip-syntax-backward "/\\")
-																			(point))))))
-				 (cl-letf (((symbol-function #'minibuffer-message)
-										(lambda (msg &rest args)
-											(let ((msg (apply #'format-message msg args)))
-												(setq ov (display-line-overlay+
-																	(window-start) msg))))))
-					 (blink-matching-open))))))
+  (let ((ov nil))
+    (advice-add
+     #'show-paren-function
+     :after
+     (defun show-paren--off-screen+ (&rest _args)
+       "Display matching line for off-screen paren."
+       (when (overlayp ov)
+         (delete-overlay ov))
+       (when (and (overlay-buffer show-paren--overlay)
+                  (not (or cursor-in-echo-area
+                           executing-kbd-macro
+                           noninteractive
+                           (minibufferp)
+                           this-command))
+                  (and (not (bobp))
+                       (memq (char-syntax (char-before)) '(?\) ?\$)))
+                  (= 1 (logand 1 (- (point)
+                                    (save-excursion
+                                      (forward-char -1)
+                                      (skip-syntax-backward "/\\")
+                                      (point))))))
+         (cl-letf (((symbol-function #'minibuffer-message)
+                    (lambda (msg &rest args)
+                      (let ((msg (apply #'format-message msg args)))
+                        (setq ov (display-line-overlay+
+                                  (window-start) msg))))))
+           (blink-matching-open))))))
 #+end_src
 
 *** LSP
 Using =lsp-mode=.
 #+begin_src emacs-lisp
-	(use-package lsp-mode
-		:defer t
-		:commands lsp
-		:custom
-		(lsp-keymap-prefix "C-x l")
-		(lsp-auto-guess-root nil)
-		(lsp-prefer-flymake nil)
-		(lsp-enable-file-watchers nil)
-		(lsp-enable-folding nil)
-		(read-process-output-max (* 1024 1024))
-		(lsp-keep-workspace-alive nil)
-		(lsp-eldoc-hook nil)
-		:bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
-		:hook ((java-mode python-mode go-mode rust-mode
-											js-mode js2-mode typescript-mode
-											c-mode c++-mode objc-mode) . lsp-deferred)
-		:config
-		(defun lsp-update-server ()
-			"Update LSP server."
-			(interactive)
-			(lsp-install-server t)))
+  (use-package lsp-mode
+    :defer t
+    :commands lsp
+    :custom
+    (lsp-keymap-prefix "C-x l")
+    (lsp-auto-guess-root nil)
+    (lsp-prefer-flymake nil)
+    (lsp-enable-file-watchers nil)
+    (lsp-enable-folding nil)
+    (read-process-output-max (* 1024 1024))
+    (lsp-keep-workspace-alive nil)
+    (lsp-eldoc-hook nil)
+    :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
+    :hook ((java-mode python-mode go-mode rust-mode
+                      js-mode js2-mode typescript-mode
+                      c-mode c++-mode objc-mode) . lsp-deferred)
+    :config
+    (defun lsp-update-server ()
+      "Update LSP server."
+      (interactive)
+      (lsp-install-server t)))
 #+end_src
 
 Using =lsp-ui-mode=.
 #+begin_src emacs-lisp
-	(use-package lsp-ui
-		:after lsp-mode
-		:diminish
-		:commands lsp-ui-mode
-		:custom-face
-		(lsp-ui-doc-background ((t (:background nil))))
-		(lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
-		:bind
-		(:map lsp-ui-mode-map
-					([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-					([remap xref-find-references]  . lsp-ui-peek-find-references)
-					("C-c u" . lsp-ui-imenu)
-					("M-i"   . lsp-ui-doc-focus-frame))
-		(:map lsp-mode-map
-					("M-n" . forward-paragraph)
-					("M-p" . backward-paragraph))
-		:custom
-		(lsp-ui-doc-header t)
-		(lsp-ui-doc-include-signature t)
-		(lsp-ui-doc-border (face-foreground 'default))
-		(lsp-ui-sideline-enable nil)
-		(lsp-ui-sideline-ignore-duplicate t)
-		(lsp-ui-sideline-show-code-actions nil)
-		:config
-		(when (display-graphic-p)
-			(setq lsp-ui-doc-use-webkit t))
-		(defadvice lsp-ui-menu (after hide-lsp-ui-imenu-mode-line activate)
-			(setq mode-line-format nil))
-		(advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))
+  (use-package lsp-ui
+    :after lsp-mode
+    :diminish
+    :commands lsp-ui-mode
+    :custom-face
+    (lsp-ui-doc-background ((t (:background nil))))
+    (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
+    :bind
+    (:map lsp-ui-mode-map
+          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+          ([remap xref-find-references]  . lsp-ui-peek-find-references)
+          ("C-c u" . lsp-ui-imenu)
+          ("M-i"   . lsp-ui-doc-focus-frame))
+    (:map lsp-mode-map
+          ("M-n" . forward-paragraph)
+          ("M-p" . backward-paragraph))
+    :custom
+    (lsp-ui-doc-header t)
+    (lsp-ui-doc-include-signature t)
+    (lsp-ui-doc-border (face-foreground 'default))
+    (lsp-ui-sideline-enable nil)
+    (lsp-ui-sideline-ignore-duplicate t)
+    (lsp-ui-sideline-show-code-actions nil)
+    :config
+    (when (display-graphic-p)
+      (setq lsp-ui-doc-use-webkit t))
+    (defadvice lsp-ui-menu (after hide-lsp-ui-imenu-mode-line activate)
+      (setq mode-line-format nil))
+    (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))
 #+end_src
 
 Using =dap-mode=.
 #+begin_src emacs-lisp
-	(use-package dap-mode
-		:diminish
-		:bind
-		(:map dap-mode-map
-					(("<f12>" . dap-debug)
-					 ("<f8>"  . dap-continue)
-					 ("<f9>"  . dap-next)
-					 ("<f7>"  . dap-breakpoint-toggle))))
+  (use-package dap-mode
+    :diminish
+    :bind
+    (:map dap-mode-map
+          (("<f12>" . dap-debug)
+           ("<f8>"  . dap-continue)
+           ("<f9>"  . dap-next)
+           ("<f7>"  . dap-breakpoint-toggle))))
 #+end_src
 
 *** Completion
 Using =company-mode=.
 #+begin_src emacs-lisp
-	(use-package company
-		:diminish company-mode
-		:hook ((prog-mode LaTeX-mode latex-mode ess-r-mode) . company-mode)
-		:bind
-		(:map company-active-map
-					([tab] . smarter-tab-to-complete)
-					("TAB" . smarter-tab-to-complete))
-		:custom
-		(company-minimum-prefix-length 1)
-		(company-tooltip-align-annotations t)
-		(company-require-match 'never)
-		(company-global-modes '(not shell-mode eaf-mode))
-		(company-idle-delay 0.1)
-		(company-show-numbers t)
-		:config
-		(global-company-mode 1)
+  (use-package company
+    :diminish company-mode
+    :hook ((prog-mode LaTeX-mode latex-mode ess-r-mode) . company-mode)
+    :bind
+    (:map company-active-map
+          ([tab] . smarter-tab-to-complete)
+          ("TAB" . smarter-tab-to-complete))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-tooltip-align-annotations t)
+    (company-require-match 'never)
+    (company-global-modes '(not shell-mode eaf-mode))
+    (company-idle-delay 0.1)
+    (company-show-numbers t)
+    :config
+    (global-company-mode 1)
 
-		(defun smarter-tab-to-complete ()
-			"Try to `org-cycle', `yas-expand' or `yas-next-field' at current cursor position."
-			(interactive)
-			(when yas-minor-mode
-				(let ((old-point (point))
-							(old-tick (buffer-chars-modified-tick))
-							(func-list
-							 (if (eq major-mode 'org-mode)
-									 '(org-cycle yas-expand yas-next-field)
-								 '(yas-expand yas-next-field))))
-					(catch 'func-succeed
-						(dolist (func func-list)
-							(ignore-errors (call-interactively func))
-							(unless (and (eq old-point (point))
-													 (eq old-tick (buffer-chars-modified-tick)))
-								(throw 'func-succeed t)))
-						(company-complete-common))))))
+    (defun smarter-tab-to-complete ()
+      "Try to `org-cycle', `yas-expand' or `yas-next-field' at current cursor position."
+      (interactive)
+      (when yas-minor-mode
+        (let ((old-point (point))
+              (old-tick (buffer-chars-modified-tick))
+              (func-list
+               (if (eq major-mode 'org-mode)
+                   '(org-cycle yas-expand yas-next-field)
+                 '(yas-expand yas-next-field))))
+          (catch 'func-succeed
+            (dolist (func func-list)
+              (ignore-errors (call-interactively func))
+              (unless (and (eq old-point (point))
+                           (eq old-tick (buffer-chars-modified-tick)))
+                (throw 'func-succeed t)))
+            (company-complete-common))))))
 #+end_src
 
 Using =company-box=.
 #+begin_src emacs-lisp
-	(use-package company-box
-		:diminish
-		:if (display-graphic-p)
-		:hook (company-mode . company-box-mode))
+  (use-package company-box
+    :diminish
+    :if (display-graphic-p)
+    :hook (company-mode . company-box-mode))
 #+end_src
 
 *** Reset language
 #+begin_src emacs-lisp
-	(defconst reset-mode-syntax-table
-		(with-syntax-table (copy-syntax-table)
-			; Comments start with #
-			(modify-syntax-entry ?# "<")
-			; Comments end on newline
-			(modify-syntax-entry ?\n ">")
-			; Highlighting strings and chars
-			(modify-syntax-entry ?' "\"")
-			(syntax-table))
-		"Syntax table for `reset-mode`.")
+  (defconst reset-mode-syntax-table
+    (with-syntax-table (copy-syntax-table)
+                                          ; Comments start with #
+      (modify-syntax-entry ?# "<")
+                                          ; Comments end on newline
+      (modify-syntax-entry ?\n ">")
+                                          ; Highlighting strings and chars
+      (modify-syntax-entry ?' "\"")
+      (syntax-table))
+    "Syntax table for `reset-mode`.")
 
-	(eval-and-compile
-		(defconst reset-keywords
-			'("if" "else"                   ; Conditionals
-				"break" "while"               ; Loops
-				"allocate" "return" "syscall" ; Functions
-				"global" "goto" "label"       ; Labels
-				"readchar" "writechar"        ; Byte operations
-				"char" "int"                  ; Array types
-				"include"))                   ; File operations
-		(defconst reset-highlights
-			`((,(regexp-opt reset-keywords 'symbols) . font-lock-keyword-face))))
+  (eval-and-compile
+    (defconst reset-keywords
+      '("if" "else"                   ; Conditionals
+        "break" "while"               ; Loops
+        "allocate" "return" "syscall" ; Functions
+        "global" "goto" "label"       ; Labels
+        "readchar" "writechar"        ; Byte operations
+        "char" "int"                  ; Array types
+        "include"))                   ; File operations
+    (defconst reset-highlights
+      `((,(regexp-opt reset-keywords 'symbols) . font-lock-keyword-face))))
 
-	(defun reset-indent-line ()
-		"Basic indentation function."
-		(let (indent boi-p move-eol-p (point (point)))
-			(save-excursion
-				(back-to-indentation)
-				(setq indent (car (syntax-ppss))
-							boi-p  (= point (point)))
-				(when (and (eq (char-after) ?\n)
-									 (not boi-p))
-					(setq indent 0))
-				(when boi-p
-					(setq move-eol-p t))
-				(when (or (eq (char-after) ?\))
-									(eq (char-after) ?\}))
-					(setq indent (1- indent)))
-				(delete-region (line-beginning-position) (point))
-				(indent-to (* tab-width indent)))
-			(when move-eol-p
-				(move-end-of-line nil))))
+  (defun reset-indent-line ()
+    "Basic indentation function."
+    (let (indent boi-p move-eol-p (point (point)))
+      (save-excursion
+        (back-to-indentation)
+        (setq indent (car (syntax-ppss))
+              boi-p  (= point (point)))
+        (when (and (eq (char-after) ?\n)
+                   (not boi-p))
+          (setq indent 0))
+        (when boi-p
+          (setq move-eol-p t))
+        (when (or (eq (char-after) ?\))
+                  (eq (char-after) ?\}))
+          (setq indent (1- indent)))
+        (delete-region (line-beginning-position) (point))
+        (indent-to (* tab-width indent)))
+      (when move-eol-p
+        (move-end-of-line nil))))
 
-	(define-derived-mode reset-mode prog-mode "Reset"
-		"Major mode for editing Reset code."
-		:syntax-table reset-mode-syntax-table
-		(setq-local font-lock-defaults '(reset-highlights))
-		(setq-local comment-start "# ")
-		(setq-local comment-end "")
-		(setq-local comment-start-skip "#+ *")
-		(setq-local indent-line-function #'reset-indent-line))
-	(add-to-list 'auto-mode-alist '("\\.rt\\'" . reset-mode))
+  (define-derived-mode reset-mode prog-mode "Reset"
+    "Major mode for editing Reset code."
+    :syntax-table reset-mode-syntax-table
+    (setq-local font-lock-defaults '(reset-highlights))
+    (setq-local comment-start "# ")
+    (setq-local comment-end "")
+    (setq-local comment-start-skip "#+ *")
+    (setq-local indent-line-function #'reset-indent-line))
+  (add-to-list 'auto-mode-alist '("\\.rt\\'" . reset-mode))
 #+end_src
 

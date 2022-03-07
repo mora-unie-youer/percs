@@ -8,6 +8,6 @@
 * User configuration
 ** This is you :3
 #+begin_src emacs-lisp
-	(setq user-full-name    "You are pretty :3"
-				user-mail-address "your_email@example.com")
+  (setq user-full-name    "You are pretty :3"
+        user-mail-address "your_email@example.com")
 #+end_src
