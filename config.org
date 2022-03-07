@@ -675,6 +675,12 @@ Using =web-mode=.
     (add-to-list 'auto-mode-alist '("\\.css\\'"  . web-mode)))
 #+end_src
 
+Using =emmet-mode=.
+#+begin_src emacs-lisp
+  (use-package emmet-mode
+    :hook (web-mode . emmet-mode))
+#+end_src
+
 **** Reset
 #+begin_src emacs-lisp
   (defconst reset-mode-syntax-table
