@@ -595,6 +595,15 @@ Using =company-box=.
     :hook (company-mode . company-box-mode))
 #+end_src
 
+*** Syntax highlighting
+=tree-sitter= gives us better syntax highlighting.
+#+begin_src emacs-lisp
+  (use-package tree-sitter
+    :diminish
+    :init (use-package tree-sitter-langs :after tree-sitter)
+    :config (global-tree-sitter-mode 1))
+#+end_src
+
 *** Reset language
 #+begin_src emacs-lisp
   (defconst reset-mode-syntax-table
