@@ -241,6 +241,13 @@ Using =marginalia= and =embark=.
     (setq prefix-help-command #'embark-prefix-help-command))
 #+end_src
 
+Using =embark-consult=.
+#+begin_src emacs-lisp
+  (use-package embark-consult
+    :after (embark consult)
+    :hook (embark-collect-mode . consult-preview-at-point-mode))
+#+end_src
+
 ** E-Mail
 I think that =notmuch= is pretty cool.
 #+begin_src emacs-lisp
