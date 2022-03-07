@@ -55,15 +55,22 @@ Starting Emacs server.
     (server-start))
 #+end_src
 
-Loading configuration.
-#+begin_src emacs-lisp :tangle "~/.emacs.d/init.el" :var config-file="~/.emacs.d/config.el"
-  (load config-file)
-#+end_src
+Loading core and user configuration. Adding keybinding (=C-c c r=) to reload them.
+#+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
+  (defconst percs-config-file "~/.emacs.d/config.org"
+    "Core configuration file for Percs")
+  (defconst percs-user-config-file "~/.emacs.d/config.user.org"
+    "User configuration file for Percs")
 
-Loading user configuration after core configuration.
-#+begin_src emacs-lisp :var user-config-file="~/.emacs.d/config.user.el"
-  (when (file-exists-p user-config-file)
-    (load-file user-config-file))
+  (defun reload-configuration ()
+    "Reloads (regenerates) core and user configuration"
+    (interactive)
+    (org-babel-load-file percs-config-file)
+    (when (file-exists-p percs-user-config-file)
+      (org-babel-load-file percs-user-config-file)))
+
+  (reload-configuration)
+  (global-set-key (kbd "C-c c r") 'reload-configuration)
 #+end_src
 
 * Configuration
