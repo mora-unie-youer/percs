@@ -779,3 +779,10 @@ Using =emmet-mode=.
     :hook (web-mode . emmet-mode))
 #+end_src
 
+**** YAML
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :mode ("\\.yaml\\'" "\\.yml\\'")
+    :hook (yaml-mode . lsp))
+#+end_src
+
