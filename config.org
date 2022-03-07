@@ -216,6 +216,15 @@ Using =selectrum=.
     :config (selectrum-mode 1))
 #+end_src
 
+Using =prescient=.
+#+begin_src emacs-lisp
+  (use-package prescient
+    :config (prescient-persist-mode 1))
+
+  (use-package selectrum-prescient
+    :config (selectrum-prescient-mode 1))
+#+end_src
+
 ** E-Mail
 I think that =notmuch= is pretty cool.
 #+begin_src emacs-lisp
@@ -597,6 +606,13 @@ Using =company-box=.
     :diminish
     :if (display-graphic-p)
     :hook (company-mode . company-box-mode))
+#+end_src
+
+Using =company-prescient=.
+#+begin_src emacs-lisp
+  (use-package company-prescient
+    :after prescient
+    :config (company-prescient-mode 1))
 #+end_src
 
 *** Syntax highlighting
