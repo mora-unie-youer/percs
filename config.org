@@ -667,15 +667,45 @@ Using =company-prescient=.
 Using =web-mode=.
 #+begin_src emacs-lisp
   (use-package web-mode
+    :mode ("\\.html?\\'" "\\.css\\'" "\\.php\\'"
+           "\\.inc\\'" "\\.jsx\\'" "\\.tsx\\'")
     :custom
     (web-mode-markup-indent-offset tab-width)
     (web-mode-css-indent-offset    tab-width)
     (web-mode-code-indent-offset   tab-width)
     (web-mode-enable-css-colorization t)
     (web-mode-enable-html-entities-fontification t)
-    :init
-    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.css\\'"  . web-mode)))
+
+    (flycheck-add-mode 'javascript-eslint 'web-mode)
+    (flycheck-add-mode 'typescript-tslint 'web-mode))
+#+end_src
+
+Using =js2-mode=.
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :mode "\\.js\\'"
+    :config
+    (customize-set-variable 'js2-include-node-externs t))
+#+end_src
+
+Using =rjsx-mode=.
+#+begin_src emacs-lisp
+  (use-package rjsx-mode
+    :defer t)
+#+end_src
+
+Using =tide= for Typescript.
+#+begin_src emacs-lisp
+  (use-package tide
+    :hook (((typescript-mode
+             js2-mode
+             web-mode
+             rjsx-mode)
+            . tide-setup))
+    :config
+    (add-to-list 'company-backends 'company-tide)
+    (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+    (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append))
 #+end_src
 
 Using =emmet-mode=.
