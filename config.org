@@ -225,6 +225,12 @@ Using =prescient=.
     :config (selectrum-prescient-mode 1))
 #+end_src
 
+Using =consult=.
+#+begin_src emacs-lisp
+  (use-package consult
+    :hook (completion-list-mode . consult-preview-at-point-mode))
+#+end_src
+
 ** E-Mail
 I think that =notmuch= is pretty cool.
 #+begin_src emacs-lisp
