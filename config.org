@@ -55,6 +55,15 @@ Starting Emacs server.
     (server-start))
 #+end_src
 
+Restoring garbage collector settings after initialization.
+#+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
+  (add-hook 'after-init-hook
+            (lambda ()
+              (garbage-collect)
+              (setq gc-cons-threshold (5 * 1024 * 1024)
+                    gc-cons-percentage 0.1)))
+#+end_src
+
 Loading core and user configuration. Adding keybinding (=C-c c r=) to reload them.
 #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el"
   (defconst percs-config-file "~/.emacs.d/config.org"
@@ -65,6 +74,7 @@ Loading core and user configuration. Adding keybinding (=C-c c r=) to reload the
   (defun reload-configuration ()
     "Reloads (regenerates) core and user configuration"
     (interactive)
+    (garbage-collect)
     (org-babel-load-file percs-config-file)
     (when (file-exists-p percs-user-config-file)
       (org-babel-load-file percs-user-config-file)))
